@@ -1,0 +1,12 @@
+{
+  "name": "ai-healing-demo-website",
+  "version": "1.0.0",
+  "description": "Static demo website (login, dashboard, products, users, orders) for testing an AI Playwright Self-Healing Agent against an intentionally breakable DOM.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
