@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ai-healing-demo-website
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /login.html
