@@ -6,7 +6,103 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body data-page="users">
-  <div class="app-shell" id="app-shell"></div>
+  <div class="app-shell" id="app-shell">
+    <aside class="sidebar">
+      <div class="brand">AI Healing Demo</div>
+      <ul class="nav-menu" data-test="nav-menu">
+        <li>
+          <a href="dashboard.html" data-test="nav-dashboard" class="">Dashboard</a>
+        </li>
+        <li>
+          <a href="products.html" data-test="nav-products" class="">Products</a>
+        </li>
+        <li>
+          <a href="users.html" data-test="nav-users" class="active">Users</a>
+        </li>
+        <li>
+          <a href="orders.html" data-test="nav-orders" class="">Orders</a>
+        </li>
+      </ul>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="page-title">Users</h1>
+        <div class="user-info">
+          <span data-test="logged-in-user">admin (Admin)</span>
+          <button class="btn btn-secondary btn-sm" data-test="logout-button" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+      <div id="page-content">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>User Management</h2>
+            <button class="btn" id="addUserBtn" data-test="add-user-button">+ Add User</button>
+          </div>
+          <table>
+            <thead><tr><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody data-test="users-table-body">
+              <tr data-test="user-row-1">
+                <td>admin</td>
+                <td>Admin</td>
+                <td><span class="badge active">active</span></td>
+                <td>
+                  <button class="btn btn-secondary btn-sm" data-test="edit-user-1" data-action="edit-user" data-id="1">Edit</button>
+                  <button class="btn btn-danger btn-sm" data-test="delete-user-1" data-action="delete-user" data-id="1">Delete</button>
+                </td>
+              </tr>
+              <tr data-test="user-row-2">
+                <td>jane</td>
+                <td>Manager</td>
+                <td><span class="badge active">active</span></td>
+                <td>
+                  <button class="btn btn-secondary btn-sm" data-test="edit-user-2" data-action="edit-user" data-id="2">Edit</button>
+                  <button class="btn btn-danger btn-sm" data-test="delete-user-2" data-action="delete-user" data-id="2">Delete</button>
+                </td>
+              </tr>
+              <tr data-test="user-row-3">
+                <td>bob</td>
+                <td>Viewer</td>
+                <td><span class="badge inactive">inactive</span></td>
+                <td>
+                  <button class="btn btn-secondary btn-sm" data-test="edit-user-3" data-action="edit-user" data-id="3">Edit</button>
+                  <button class="btn btn-danger btn-sm" data-test="delete-user-3" data-action="delete-user" data-id="3">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-overlay" id="userModal" data-test="user-modal">
+          <div class="modal">
+            <h3 id="userModalTitle">Add User</h3>
+            <input type="hidden" id="editUserId" />
+            <div class="field">
+              <label>Username</label>
+              <input type="text" id="userUsername" data-test="user-username-input" />
+            </div>
+            <div class="field">
+              <label>Role</label>
+              <select id="userRole" data-test="user-role-select">
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Viewer">Viewer</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Status</label>
+              <select id="userStatus" data-test="user-status-select">
+                <option value="active">active</option>
+                <option value="inactive">inactive</option>
+              </select>
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-secondary" id="cancelUserBtn" data-test="cancel-user-button">Cancel</button>
+              <button class="btn" id="saveUserBtn" data-test="save-user-button">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
   <script src="js/locatorChaos.js"></script>
   <script src="js/app.js"></script>
 </body>

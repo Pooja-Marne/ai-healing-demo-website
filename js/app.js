@@ -73,6 +73,13 @@ function requireAuth() {
   return session;
 }
 
+// ---------- Helpers ----------
+// Product names like `27" Monitor` contain a literal double quote, which
+// breaks unescaped attribute interpolation (e.g. value="${p.name}").
+function escapeHtml(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 // ---------- Toast ----------
 function showToast(message, type = 'success') {
   let toast = document.getElementById('toast');
@@ -473,7 +480,7 @@ function renderOrdersTable() {
         <div class="field">
           <label>Product</label>
           <select id="orderProduct" data-test="order-product-select">
-            ${getDb().products.map((p) => `<option value="${p.name}" data-price="${p.price}">${p.name}</option>`).join('')}
+            ${getDb().products.map((p) => `<option value="${escapeHtml(p.name)}" data-price="${p.price}">${escapeHtml(p.name)}</option>`).join('')}
           </select>
         </div>
         <div class="field">

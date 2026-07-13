@@ -6,7 +6,88 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body data-page="orders">
-  <div class="app-shell" id="app-shell"></div>
+  <div class="app-shell" id="app-shell">
+    <aside class="sidebar">
+      <div class="brand">AI Healing Demo</div>
+      <ul class="nav-menu" data-test="nav-menu">
+        <li>
+          <a href="dashboard.html" data-test="nav-dashboard" class="">Dashboard</a>
+        </li>
+        <li>
+          <a href="products.html" data-test="nav-products" class="">Products</a>
+        </li>
+        <li>
+          <a href="users.html" data-test="nav-users" class="">Users</a>
+        </li>
+        <li>
+          <a href="orders.html" data-test="nav-orders" class="active">Orders</a>
+        </li>
+      </ul>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="page-title">Orders</h1>
+        <div class="user-info">
+          <span data-test="logged-in-user">admin (Admin)</span>
+          <button class="btn btn-secondary btn-sm" data-test="logout-button" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+      <div id="page-content">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Orders</h2>
+            <button class="btn" id="createOrderBtn" data-test="renamed-create-order-button">+ Create Order</button>
+          </div>
+          <table>
+            <thead><tr><th>ID</th><th>Product</th><th>Customer</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody data-test="orders-table-body">
+              <tr data-test="order-row-1001">
+                <td>#1001</td>
+                <td>Wireless Mouse</td>
+                <td>Alice</td>
+                <td>$19.99</td>
+                <td><span class="badge pending">pending</span></td>
+                <td>
+                  <button class="btn btn-sm" data-test="approve-order-1001" data-action="approve-order" data-id="1001">Approve</button>
+                </td>
+              </tr>
+              <tr data-test="order-row-1002">
+                <td>#1002</td>
+                <td>27" Monitor</td>
+                <td>Charlie</td>
+                <td>$249.00</td>
+                <td><span class="badge approved">approved</span></td>
+                <td>
+                  —
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-overlay" id="orderModal" data-test="order-modal">
+          <div class="modal">
+            <h3>Create Order</h3>
+            <div class="field">
+              <label>Product</label>
+              <select id="orderProduct" data-test="order-product-select">
+                <option value="Wireless Mouse" data-price="19.99">Wireless Mouse</option>
+                <option value="Mechanical Keyboard" data-price="59.99">Mechanical Keyboard</option>
+                <option value="27&quot; Monitor" data-price="249">27" Monitor</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Customer</label>
+              <input type="text" id="orderCustomer" data-test="order-customer-input" />
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-secondary" id="cancelOrderBtn" data-test="cancel-order-button">Cancel</button>
+              <button class="btn" id="saveOrderBtn" data-test="save-order-button">Create</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
   <script src="js/locatorChaos.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -6,7 +6,58 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body data-page="dashboard">
-  <div class="app-shell" id="app-shell"></div>
+  <div class="app-shell" id="app-shell">
+    <aside class="sidebar">
+      <div class="brand">AI Healing Demo</div>
+      <ul class="nav-menu" data-test="nav-menu">
+        <li>
+          <a href="dashboard.html" data-test="nav-dashboard" class="active">Dashboard</a>
+        </li>
+        <li>
+          <a href="products.html" data-test="nav-products" class="">Products</a>
+        </li>
+        <li>
+          <a href="users.html" data-test="nav-users" class="">Users</a>
+        </li>
+        <li>
+          <a href="orders.html" data-test="nav-orders" class="">Orders</a>
+        </li>
+      </ul>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="page-title">Dashboard</h1>
+        <div class="user-info">
+          <span data-test="logged-in-user">admin (Admin)</span>
+          <button class="btn btn-secondary btn-sm" data-test="logout-button" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+      <div id="page-content">
+        <div class="cards-grid" data-test="dashboard-cards">
+          <div class="card" data-test="card-products">
+            <div class="card-label">Total Products</div>
+            <div class="card-value">3</div>
+          </div>
+          <div class="card" data-test="card-users">
+            <div class="card-label">Total Users</div>
+            <div class="card-value">3</div>
+          </div>
+          <div class="card" data-test="card-orders">
+            <div class="card-label">Total Orders</div>
+            <div class="card-value">2</div>
+          </div>
+          <div class="card" data-test="card-pending-orders">
+            <div class="card-label">Pending Orders</div>
+            <div class="card-value">1</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h2>Welcome</h2></div>
+          <p style="color:var(--muted); font-size:14px;">Use the navigation menu to manage products, users, and orders.</p>
+        </div>
+      </div>
+    </main>
+  </div>
   <script src="js/locatorChaos.js"></script>
   <script src="js/app.js"></script>
 </body>
