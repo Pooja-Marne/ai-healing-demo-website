@@ -80,6 +80,25 @@ function escapeHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+// ---------- Locator override capture ----------
+// Hand-editing a data-test value directly in the static HTML (e.g. to
+// simulate a healed/renamed locator) would normally get wiped the instant
+// renderShell()/render*Table() overwrite innerHTML on load. Capturing the
+// as-served value here, before any render touches the DOM, and re-injecting
+// it via testId() keeps that rename alive across every re-render instead of
+// reverting to the hardcoded default the next time the page loads.
+const dataTestOverrides = {};
+
+function captureDataTestOverrides() {
+  document.querySelectorAll('[id][data-test]').forEach((el) => {
+    dataTestOverrides[el.id] = el.getAttribute('data-test');
+  });
+}
+
+function testId(elementId, fallback) {
+  return dataTestOverrides[elementId] || fallback;
+}
+
 // ---------- Toast ----------
 function showToast(message, type = 'success') {
   let toast = document.getElementById('toast');
@@ -126,7 +145,7 @@ function renderShell(activePage) {
         <h1 id="page-title"></h1>
         <div class="user-info">
           <span data-test="logged-in-user">${session.username} (${session.role})</span>
-          <button class="btn btn-secondary btn-sm" data-test="logout-button" id="logoutBtn">Logout</button>
+          <button class="btn btn-secondary btn-sm" data-test="${testId('logoutBtn', 'logout-button')}" id="logoutBtn">Logout</button>
         </div>
       </div>
       <div id="page-content"></div>
@@ -239,8 +258,8 @@ function renderProductsTable(filter) {
       <div class="panel-header">
         <h2>Product Catalog</h2>
         <div class="search-bar">
-          <input type="text" id="productSearch" data-test="product-search-input" placeholder="Search products..." value="${filter}" />
-          <button class="btn" id="addProductBtn" data-test="add-product-button">+ Add Product</button>
+          <input type="text" id="productSearch" data-test="${testId('productSearch', 'product-search-input')}" placeholder="Search products..." value="${filter}" />
+          <button class="btn" id="addProductBtn" data-test="${testId('addProductBtn', 'add-product-button')}">+ Add Product</button>
         </div>
       </div>
       <table>
@@ -248,24 +267,24 @@ function renderProductsTable(filter) {
         <tbody data-test="products-table-body">${rows}</tbody>
       </table>
     </div>
-    <div class="modal-overlay" id="productModal" data-test="product-modal">
+    <div class="modal-overlay" id="productModal" data-test="${testId('productModal', 'product-modal')}">
       <div class="modal">
         <h3>Add Product</h3>
         <div class="field">
           <label>Name</label>
-          <input type="text" id="newProductName" data-test="new-product-name" />
+          <input type="text" id="newProductName" data-test="${testId('newProductName', 'new-product-name')}" />
         </div>
         <div class="field">
           <label>Price</label>
-          <input type="number" id="newProductPrice" data-test="new-product-price" step="0.01" />
+          <input type="number" id="newProductPrice" data-test="${testId('newProductPrice', 'new-product-price')}" step="0.01" />
         </div>
         <div class="field">
           <label>Stock</label>
-          <input type="number" id="newProductStock" data-test="new-product-stock" />
+          <input type="number" id="newProductStock" data-test="${testId('newProductStock', 'new-product-stock')}" />
         </div>
         <div class="modal-actions">
-          <button class="btn btn-secondary" id="cancelProductBtn" data-test="cancel-product-button">Cancel</button>
-          <button class="btn" id="saveProductBtn" data-test="save-product-button">Save</button>
+          <button class="btn btn-secondary" id="cancelProductBtn" data-test="${testId('cancelProductBtn', 'cancel-product-button')}">Cancel</button>
+          <button class="btn" id="saveProductBtn" data-test="${testId('saveProductBtn', 'save-product-button')}">Save</button>
         </div>
       </div>
     </div>
@@ -340,24 +359,24 @@ function renderUsersTable() {
     <div class="panel">
       <div class="panel-header">
         <h2>User Management</h2>
-        <button class="btn" id="addUserBtn" data-test="add-user-button">+ Add User</button>
+        <button class="btn" id="addUserBtn" data-test="${testId('addUserBtn', 'add-user-button')}">+ Add User</button>
       </div>
       <table>
         <thead><tr><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody data-test="users-table-body">${rows}</tbody>
       </table>
     </div>
-    <div class="modal-overlay" id="userModal" data-test="user-modal">
+    <div class="modal-overlay" id="userModal" data-test="${testId('userModal', 'user-modal')}">
       <div class="modal">
         <h3 id="userModalTitle">Add User</h3>
         <input type="hidden" id="editUserId" />
         <div class="field">
           <label>Username</label>
-          <input type="text" id="userUsername" data-test="user-username-input" />
+          <input type="text" id="userUsername" data-test="${testId('userUsername', 'user-username-input')}" />
         </div>
         <div class="field">
           <label>Role</label>
-          <select id="userRole" data-test="user-role-select">
+          <select id="userRole" data-test="${testId('userRole', 'user-role-select')}">
             <option value="Admin">Admin</option>
             <option value="Manager">Manager</option>
             <option value="Viewer">Viewer</option>
@@ -365,14 +384,14 @@ function renderUsersTable() {
         </div>
         <div class="field">
           <label>Status</label>
-          <select id="userStatus" data-test="user-status-select">
+          <select id="userStatus" data-test="${testId('userStatus', 'user-status-select')}">
             <option value="active">active</option>
             <option value="inactive">inactive</option>
           </select>
         </div>
         <div class="modal-actions">
-          <button class="btn btn-secondary" id="cancelUserBtn" data-test="cancel-user-button">Cancel</button>
-          <button class="btn" id="saveUserBtn" data-test="save-user-button">Save</button>
+          <button class="btn btn-secondary" id="cancelUserBtn" data-test="${testId('cancelUserBtn', 'cancel-user-button')}">Cancel</button>
+          <button class="btn" id="saveUserBtn" data-test="${testId('saveUserBtn', 'save-user-button')}">Save</button>
         </div>
       </div>
     </div>
@@ -467,29 +486,29 @@ function renderOrdersTable() {
     <div class="panel">
       <div class="panel-header">
         <h2>Orders</h2>
-        <button class="btn" id="createOrderBtn" data-test="create-order-button">+ Create Order</button>
+        <button class="btn" id="createOrderBtn" data-test="${testId('createOrderBtn', 'create-order-button')}">+ Create Order</button>
       </div>
       <table>
         <thead><tr><th>ID</th><th>Product</th><th>Customer</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody data-test="orders-table-body">${rows}</tbody>
       </table>
     </div>
-    <div class="modal-overlay" id="orderModal" data-test="order-modal">
+    <div class="modal-overlay" id="orderModal" data-test="${testId('orderModal', 'order-modal')}">
       <div class="modal">
         <h3>Create Order</h3>
         <div class="field">
           <label>Product</label>
-          <select id="orderProduct" data-test="order-product-select">
+          <select id="orderProduct" data-test="${testId('orderProduct', 'order-product-select')}">
             ${getDb().products.map((p) => `<option value="${escapeHtml(p.name)}" data-price="${p.price}">${escapeHtml(p.name)}</option>`).join('')}
           </select>
         </div>
         <div class="field">
           <label>Customer</label>
-          <input type="text" id="orderCustomer" data-test="order-customer-input" />
+          <input type="text" id="orderCustomer" data-test="${testId('orderCustomer', 'order-customer-input')}" />
         </div>
         <div class="modal-actions">
-          <button class="btn btn-secondary" id="cancelOrderBtn" data-test="cancel-order-button">Cancel</button>
-          <button class="btn" id="saveOrderBtn" data-test="save-order-button">Create</button>
+          <button class="btn btn-secondary" id="cancelOrderBtn" data-test="${testId('cancelOrderBtn', 'cancel-order-button')}">Cancel</button>
+          <button class="btn" id="saveOrderBtn" data-test="${testId('saveOrderBtn', 'save-order-button')}">Create</button>
         </div>
       </div>
     </div>
@@ -536,6 +555,7 @@ function approveOrder(id) {
 
 // ---------- boot ----------
 document.addEventListener('DOMContentLoaded', () => {
+  captureDataTestOverrides();
   initLoginPage();
 
   const page = document.body.dataset.page;
