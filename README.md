@@ -13,19 +13,19 @@ repo, under `tests/playwright/specs/demoSite/`, so they run through that
 platform's real self-healing pipeline, dashboard, and Locator Repository —
 this site is just the target they point at.
 
-## Breaking a locator on demand — "Chaos Mode"
+## Breaking a locator on demand
 
-Every interactive element has a stable `data-test` attribute. `js/locatorChaos.js`
-can intentionally rewrite specific `data-test` values to broken variants at
-runtime, without a redeploy or any backend:
+Every interactive element has a stable `data-test` attribute. To intentionally
+break one for a demo, edit its value directly in the relevant `.html` file
+(e.g. change `data-test="create-order-button"` to something else in
+`orders.html`) and redeploy.
 
-- **URL param**: `?chaos=on` / `?chaos=off` (persists to `localStorage`)
-- **Console**: `localStorage.setItem('ahd_chaos', 'on')`
-
-Once enabled, a `MutationObserver` keeps re-applying the break across
-re-renders (search, add/delete rows, reopened modals), so it stays broken
-until explicitly turned off — a real, reproducible failure for the healing
-agent to detect and fix, not a one-time DOM edit.
+That rename sticks even though `js/app.js` rebuilds each page's content on
+every load: `captureDataTestOverrides()` reads the as-served `data-test`
+value for every `[id][data-test]` element before any rendering happens, and
+`testId(elementId, fallback)` re-injects that captured value into the
+template — so your edit survives re-renders (search, add/delete rows,
+reopened modals) instead of reverting to the hardcoded default.
 
 ## Tech stack
 
